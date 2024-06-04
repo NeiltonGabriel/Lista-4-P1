@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+void ler(int contador);
+void tela(int numero, int numero_de_analise);
+
+int main() {
+
+	ler(9);
+
+	return 0;
+}
+
+void ler(int contador)
+{
+	int numero;
+	
+    scanf("%d", &numero);
+
+	if (contador < 1)
+    {   
+        tela(numero, 0);
+        return;
+    }
+	else tela(numero, 0);
+
+	ler(contador - 1);	
+}
+
+void tela(int numero, int numero_de_analise)
+{	
+    if (numero < 10)
+    {
+        if ((numero % 2) == 0) printf(".\n");
+        else printf("-\n");
+    }
+    else
+    {
+	    numero_de_analise = numero % 10; 
+    
+	    if ((numero_de_analise % 2) == 0) printf(".");
+	    else printf("-");
+        
+        tela(numero/10, 0);
+    }
+}

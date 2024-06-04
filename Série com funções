@@ -1,0 +1,84 @@
+#include <stdio.h>
+void tela(int contador, int final);
+int proximo_primo(int numero, int contador);
+int primo(int numero, int divisor);
+double conta(int contador, int final);
+int fatorial(int numero);
+
+int main()
+{
+    int numero;
+    scanf("%d", &numero);
+    tela(1, numero);
+    return 0;
+}
+
+void tela(int contador, int final)
+{
+
+    if (final == 0)
+    {
+        printf("0.00\n");
+    }
+    else if (contador > final)
+    {
+        printf("%.2lf\n", conta(1, final));
+        return;
+    }
+    else if (contador == final)
+    {
+        printf("%d!/%d\n", contador, proximo_primo(contador, 0));
+        tela(contador + 1, final);
+    }
+    else
+    {
+        printf("%d!/%d + ", contador, proximo_primo(contador, 0));
+        tela(contador + 1, final);
+    }
+}
+
+int proximo_primo(int numero, int contador)
+{
+    int numero_de_analise;
+
+    if (numero == 1) return 1;
+    else
+    {
+        numero_de_analise = numero + contador;
+        
+        if (primo(numero_de_analise, 2) == 1) return numero_de_analise;
+        else return proximo_primo(numero, contador + 1);
+    }
+}
+
+int primo(int numero, int divisor)
+{
+
+    int resto;
+
+    resto = numero % divisor;
+
+    if (numero <= 1) return 0;
+    
+    else if (resto == 0 && divisor != numero) return 0;
+    
+    if (divisor < numero) return primo(numero, divisor + 1);
+    
+    return 1;
+}
+
+double conta(int comeco, int final) 
+{
+    
+    if (final == comeco) return 1; 
+    else
+    {
+        return ((double)fatorial(final) / (double)proximo_primo(final, 0)) + conta(comeco, final - 1);
+    }
+}
+
+int fatorial(int numero)
+{
+    if (numero == 1 || numero == 0) return 1;
+    else return numero * fatorial(numero - 1);
+}

@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+int sequencia(int pessoas, int sono, int proximo, int contador);
+
+
+int main()
+{
+
+    int N, T, resultado;
+    scanf("%d %d", &N, &T);
+
+    resultado = sequencia(N, T, 0, 1); //resultado = 13
+
+    printf("%d\n", resultado);
+
+    return 0;
+}
+
+int sequencia(int pessoas, int sono, int proximo, int contador)  
+{
+    
+    if (sono == 0) return pessoas; 
+    else if (contador > sono) return pessoas; 
+    else
+    {
+        if ((contador % 2) != 0) 
+        {
+            proximo = pessoas + 3; 
+            return sequencia(proximo, sono, 0, contador + 1);
+        }
+        else 
+        {
+            proximo = pessoas + (pessoas % 5); 
+            return sequencia(proximo, sono, 0, contador + 1); 
+        }
+    }
+}
+
+
+/*
+como assim "passar para a proxima camada?"
+
++ 3 ou + (anterior % 5)
+*/

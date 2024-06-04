@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+void ler(int contador);
+void apagar(int numero_analisado, int esquerda, int meio, int direita, int extremos, int meio_direita, int meio_esquerda);
+
+int main()
+{
+    int testes;
+    
+    scanf("%d", &testes);
+
+    ler(testes);
+
+	return 0;
+}
+
+void ler(int contador)
+{
+	int numero;
+	
+    scanf("%d", &numero);
+
+	if (contador == 1)
+    {
+        apagar(numero, 0, 0, 0, 0, 0, 0);
+        return;
+    }
+	else apagar(numero, 0, 0, 0, 0, 0, 0);
+
+	ler(contador - 1);	
+}
+
+void apagar(int numero_analisado, int esquerda, int meio, int direita, int extremos, int meio_direita, int meio_esquerda)
+{
+    int resultado;
+    //numero_analisado = xyz
+    esquerda = numero_analisado / 100; //x
+    meio = (numero_analisado % 100) / 10; //y
+    direita = numero_analisado % 10; //z
+
+    extremos = (esquerda * 10) + direita; //xz, tirou o numero do meio
+    meio_direita = (meio * 10) + direita; //yz, tirou o numero da frente
+    meio_esquerda = (esquerda * 10) + meio; //xy, tirou o numero de tras
+
+    if (extremos >= meio_direita && extremos >= meio_esquerda) resultado = extremos;
+    else if (meio_direita >= extremos && meio_direita >= meio_esquerda) resultado = meio_direita;
+    else if (meio_esquerda >= extremos && meio_esquerda >= meio_direita) resultado = meio_esquerda;
+
+    printf("%d\n", resultado);
+
+    return;
+}
+
+/* 3 digitos, como tirar um numero especifico?
+
+xyz -> x * 100 + y * 10 + z
+
+z = xyz resto 10
+y = (xyz resto 100) / 10
+x = xyz / 100
+
+xy = x * 10 + y
+xz = x * 10 + z
+yz = y * 10 + z*/

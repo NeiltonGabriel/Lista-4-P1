@@ -1,0 +1,67 @@
+#include <stdio.h>
+void ler();
+int comparar(int limite_inferior, int limite_superior, int contador, int maior);
+int conta(int numero, int vezes);
+
+int main()
+{
+    /*int teste;
+    scanf("%d", &teste);
+    printf("%d\n", conta(teste, 1));*/
+    ler();
+    return 0;
+}
+
+void ler()
+{
+    int valor1, valor2, caixa, valor_original_1, valor_original_2, resposta;
+
+    if(scanf("%d %d", &valor1, &valor2) != EOF)
+    {
+        valor_original_1 = valor1;
+        valor_original_2 = valor2;
+
+        if (valor1 > valor2)
+        {
+            caixa = valor2;
+            valor2 = valor1;
+            valor1 = caixa;
+        }
+        resposta = comparar(valor1, valor2, 0, 1);
+        printf("%d %d %d\n", valor_original_1, valor_original_2, resposta);
+        ler();
+    }
+    else return;
+}
+
+int comparar(int limite_inferior, int limite_superior, int contador, int maior)
+{
+    int numero_de_analise, resultado_atual;
+
+    numero_de_analise = limite_inferior + contador; 
+    resultado_atual = conta(numero_de_analise, 1);
+
+    if (numero_de_analise > limite_superior) return maior; 
+    else
+    {
+        if (resultado_atual >= maior) maior = resultado_atual;
+        return comparar(limite_inferior, limite_superior, contador + 1, maior);    
+    }
+}
+
+int conta(int numero, int vezes)
+{
+    if (numero == 1) return vezes;
+    else if ((numero % 2) == 0)
+    {
+        vezes++;
+        numero = numero / 2;
+        return conta(numero, vezes);
+    }
+    else
+    {
+        vezes++;
+        numero = 3 * numero + 1;
+        return conta(numero, vezes);
+    }
+}

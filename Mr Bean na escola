@@ -1,0 +1,90 @@
+#include <stdio.h>
+void ler(int contador, int par, int impar);
+void tela(int maior_par, int primo_proximo_par, int menor_impar, int primo_proximo_impar);
+int primo(int numero, int divisor);
+int comparar(int numero, int numero_de_analise, int resposta);
+
+int main()
+{
+    int vezes;
+    scanf("%d", &vezes);
+    ler(vezes, 0, 0);
+    return 0;
+}
+
+void ler(int contador, int par, int impar) //a funcao ler, vai decidir qual eh o maior par e o menor impar
+{
+    int numero;
+
+    if (contador != 0)
+    {
+        scanf("%d", &numero);
+
+        if ((numero % 2) == 0)
+        {
+            if (numero > par) par = numero;
+        }
+        else if ((numero % 2) != 0) 
+        {
+            if (impar == 0) impar = numero;
+            else if (impar > numero) impar = numero;
+        }
+        ler(--contador, par, impar);
+    }
+    else
+    {
+        tela(par, 0, impar, 0); //maior par, futuro primo proximo ao par, menor impar, futuro primo proximo ao impar
+        return;
+    }
+}
+
+void tela(int maior_par, int primo_proximo_par, int menor_impar, int primo_proximo_impar)
+{
+    int respostapar, respostaimpar;
+
+    if (maior_par == 0) printf("Sem numeros pares\n");
+    else
+    {
+        printf("Maior par: %d\n", maior_par);
+        respostapar = comparar(maior_par, 2, 2); //maior numero par, menor primo possivel e 2 de novo so para ter parametros suficientes para a funcao
+        printf("Primo anterior ao maior: %d\n", respostapar);
+    }
+    if (menor_impar == 0) printf("Sem numeros impares\n");
+    else
+    {
+        printf("Menor impar: %d\n", menor_impar);
+        respostaimpar = comparar(menor_impar, 2, 2); //menor impar, menor primo possivel e 2 de novo so para ter parametros suficientes para a funcao
+        printf("Primo anterior ao menor: %d\n", respostaimpar);
+
+    }
+}
+
+int comparar(int numero, int numero_de_analise, int resposta)//17, 2, 2 
+{
+    if (numero_de_analise >= numero) return resposta; // 2 >= 17
+    else
+    {
+        if (primo(numero_de_analise, 2) == 1) // 2 eh primo
+        {
+            if (numero_de_analise > resposta) resposta = numero_de_analise;
+            return comparar(numero, numero_de_analise + 1, resposta);
+        }
+        else return comparar(numero, numero_de_analise + 1, resposta);
+    }
+}
+
+int primo(int numero, int divisor)
+{
+
+    int resto;
+
+    resto = numero % divisor;
+
+    if (numero <= 1) return 0;
+    
+    else if (resto == 0 && divisor != numero) return 0;
+    
+    if (divisor < numero) return primo(numero, divisor + 1);
+    
+    return 1;
+}

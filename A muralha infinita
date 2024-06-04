@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+void ler(int contador, int x_do_vaqueiro, int y_do_vaqueiro, int reino_anterior, int pedagio);
+
+int main()
+{
+    int vezes;
+    char nemtentou, primeiro_passo;
+
+    scanf("%d", &vezes);
+
+    if (vezes == 1)
+    {
+        scanf(" %c", &nemtentou);
+        printf("0\n");
+    }
+    else
+    {
+        scanf(" %c", &primeiro_passo);
+
+        if (primeiro_passo == 'C') ler(vezes - 1, 0, 1, 2, 0);
+        else ler(vezes - 1, 1, 0, 1, 0);
+    }
+}
+
+void ler(int contador, int x_do_vaqueiro, int y_do_vaqueiro, int reino_anterior, int pedagio)
+{
+    char direcao;
+
+    if (contador > 0) //5 > 0
+    {
+        scanf(" %c", &direcao);
+
+        if (y_do_vaqueiro - x_do_vaqueiro > 0) reino_anterior == 2;
+        else if (y_do_vaqueiro - x_do_vaqueiro < 0) reino_anterior == 1;
+        
+        if (direcao == 'D') x_do_vaqueiro++;
+        else y_do_vaqueiro++;
+
+        if (reino_anterior == 1 && y_do_vaqueiro - x_do_vaqueiro > 0)
+        {
+            reino_anterior = 2;
+            pedagio++;
+        }
+        else if (reino_anterior == 2 && y_do_vaqueiro - x_do_vaqueiro < 0)
+        {
+            reino_anterior = 1;
+            pedagio++;
+        }
+
+        ler(contador - 1, x_do_vaqueiro, y_do_vaqueiro, reino_anterior, pedagio);
+    }
+    else printf("%d\n", pedagio);
+}

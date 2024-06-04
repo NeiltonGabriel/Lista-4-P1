@@ -1,0 +1,78 @@
+#include <stdio.h>
+void ler(int contador);
+int batalha(int vidaC, int ataqueC, int vidaB, int ataqueB);
+int possoatacar(int ataqueClodes, int vidaClodes, int ataqueBezaliel, int vidaBezaliel);
+
+int main()
+{
+    int vezes;
+    scanf("%d", &vezes);
+    ler(vezes);
+    return 0;
+}
+
+void ler(int contador)
+{
+    int vida_CLODES, ataque_CLODES, vida_BEZALIEL, ataque_BEZALIEL, resultado;
+    if (contador != 0)
+    {
+        scanf("%d %d %d %d", &vida_CLODES, &vida_BEZALIEL, &ataque_CLODES, &ataque_BEZALIEL);
+        resultado = batalha(vida_CLODES, ataque_CLODES, vida_BEZALIEL, ataque_BEZALIEL);
+        
+        if (resultado == 1) printf("Clodes\n");
+        else printf("Bezaliel\n");
+        ler(--contador);
+    }
+    else return;
+}
+
+int batalha(int vidaC, int ataqueC, int vidaB, int ataqueB)
+{
+    int turnos, ataque_de_analise, atacar;
+
+    turnos = vidaC / ataqueB;
+
+    if ((vidaC % ataqueB) != 0) turnos + 1; // Deu um numero com virgula, ou seja, demora mais um turno para o Clodes morrer
+
+    atacar = possoatacar(ataqueC, vidaC, ataqueB, vidaB);
+
+    if (atacar == 0)
+    {
+        ataqueC += 50;
+        vidaC -= ataqueB;
+
+        if (vidaC <= 0) return 2;
+        else return batalha(vidaC, ataqueC, vidaB, ataqueB);
+    }
+    else return 1;
+    
+}
+
+int possoatacar(int ataqueClodes, int vidaClodes, int ataqueBezaliel, int vidaBezaliel)
+{
+    vidaBezaliel -= ataqueClodes;
+
+    if (vidaBezaliel <= 0) return 1; //Com o ataque atual Clodes pode vencer
+    else
+    {
+        vidaClodes -= ataqueBezaliel;
+
+        if (vidaClodes <= 0) return 0; //Com o ataque atual Clodes vai perder
+        else return possoatacar(ataqueClodes, vidaClodes, ataqueBezaliel, vidaBezaliel);
+    }
+}
+
+/*
+habilidades:
+
+atacar -> causa dano
+buffar -> aumenta o ataque em 50
+
+Codes vai ficar buffando at� poder matar
+Bezaliel vai atacar sempre
+
+Clodes age primeiro
+
+batalha vai retornar 1 caso Clodes ven�a e 2 caso Bezaliel ven�a
+
+posso atacar vai retornar 1 caso Clodes n�o v� perder e 0 caso v� perder*/
